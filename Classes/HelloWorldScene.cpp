@@ -74,17 +74,39 @@ bool HelloWorld::init()
     this->addChild(pSprite, 0);
 
 
+    //移动
+    // CCActionInterval*  actionTo = CCJumpTo::create(2, ccp(300,300), 50, 4);
+    // CCActionInterval*  actionBy = CCJumpBy::create(2, ccp(300,0), 50, 4);
+    // CCActionInterval*  actionUp = CCJumpBy::create(2, ccp(0,0), 80, 4);
+    // CCActionInterval*  actionByBack = actionBy->reverse();
 
-    CCActionInterval*  actionTo = CCJumpTo::create(2, ccp(300,300), 50, 4);
-    CCActionInterval*  actionBy = CCJumpBy::create(2, ccp(300,0), 50, 4);
-    CCActionInterval*  actionUp = CCJumpBy::create(2, ccp(0,0), 80, 4);
+    // pSprite->runAction(CCRepeatForever::create(CCSequence::create(actionBy, actionByBack, NULL)));
+
+    //缩放
+    //CCActionInterval*  scaleTo = CCScaleBy::create(2, 0.5f, 0.25f);
+    //CCActionInterval*  scaleToBack = scaleTo->reverse();
+    //pSprite->runAction(CCRepeatForever::create(CCSequence::create(scaleTo, scaleToBack, NULL)));
+
+    //旋转，正数表示顺时针。。。
+    //CCActionInterval*  actionBy = CCRotateBy::create(2 ,  45);
+    //CCActionInterval*  actionByBack = actionBy->reverse();
+    //pSprite->runAction(CCRepeatForever::create(CCSequence::create(actionBy, actionByBack, NULL)));
+
+    //同步
+    CCActionInterval*  scaleTo = CCScaleBy::create(2, 0.5f, 0.25f);
+    CCActionInterval*  scaleToBack = scaleTo->reverse();
+
+    CCActionInterval*  actionBy = CCRotateBy::create(2 ,  45);
     CCActionInterval*  actionByBack = actionBy->reverse();
 
-    //pSprite->runAction(actionTo);
-    //pSprite->runAction(CCSequence::create(actionBy, actionByBack, NULL));
-    //pSprite->runAction(CCRepeatForever::create(actionUp));
+    pSprite->runAction(
+        CCRepeatForever::create(
+        CCSpawn::create(
+        CCSequence::create(scaleTo, scaleToBack, NULL),
+        CCSequence::create(actionBy, actionByBack, NULL),
+        NULL)));
 
-    pSprite->runAction(CCRepeatForever::create(CCSequence::create(actionBy, actionByBack, NULL)));
+ 
     
     return true;
 }
